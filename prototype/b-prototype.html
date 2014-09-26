@@ -1,0 +1,69 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<!-- 
+		Storing instance value 
+	 -->
+	<script>
+
+	// This example describes the problem of storing instance values inside of a prototype method.
+
+	// We're creating a tree object. Using the tree object we'll be creating new instances, each of which will have access it's prototype methods and propieties.
+	// PART A - This part shows how storing values in the prototype object will lead it to hold the information that is intended to be stored only in every single instance's property. In this example, all instances of the Tree objet has access to the nodes object. The real outcome of this project is the individual storage of nodes for every instance. We see this result in the PART B of our example.
+
+	// Out Tree constructor
+	var Tree = function(x){
+		this.topx = x;
+	}
+	// Adding the public array property nodes and a public method addChild.
+	Tree.prototype = {
+		nodes:[], // this is a prototype object
+		addChild : function(x){
+			this.nodes.push(x);
+		}
+	};
+	// topE is a new instance of the object Tree. Or an instance having the prototype Tree.prototype object (Inheritance).
+	
+	var topE = new Tree(4);
+	topE.addChild(2);
+	topE.addChild(5);
+	// {...}
+	var left = new Tree(5);
+	left.addChild(6);
+	left.addChild(9);	
+	// This output shows that either the new objects topE and left contain the value of nodes. This is not the expected result for out example. See next part (B).
+	console.log(topE.nodes);
+	console.log(left.nodes);
+	// Is good to add that, from this example I've learned that everythig assigned to the object.prototype will be inherited by all objects resulted by the instance of a parent object.  
+	//**********************************************************************************
+	// --> PART B - In this part we present the right behaviour our example should take.
+	// All we have to do is place the nodes object outside of the shared prototype! That way nodes will hold the values passed to each instance method invokation.
+	var Tree = function(x){
+		this.topx = x;
+		this.nodes = []; // this is an instance object! 
+	}
+	// In this case any object resulted from the instance of the partent object (tree) will share only the addChild method and not the stored values in the nodes array.
+	Tree.prototype = {
+		addChild : function(x){
+			this.nodes.push(x);
+		}
+	}
+
+	var topE = new Tree(4);
+	topE.addChild(2);
+	topE.addChild(5);
+	// {...}
+	var left = new Tree(5);
+	left.addChild(6);
+	left.addChild(9);	
+	// Result from keeping the instance value isolated from the prototype inheritance.
+	console.log('Result from storing instance state only on instance objects');
+	console.log(topE.nodes);
+	console.log(left.nodes);
+
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<!-- This example is intended to explain the use of the object prototype.
+	
+	 -->
+	<script>
+
+	// Object.prototype is an object.
+	console.log(typeof Object.prototype);
+
+	// A prototype decribes inheritance in javascript.
+
+	// This function is called a constructor
+	function User (name, password){
+		this.name = name;
+		this.password = password;
+	}
+
+	// Creating a method for the User object
+	User.prototype.toString = function(){
+		return "The user's name is: "+this.name;
+	}
+
+	User.prototype.changeName = function(name){
+		return this.name = name;
+	}
+	// A new object with access to User.prototype
+	var anthony = new User('Anthony',1234);
+	var carlos = new User('carlos',1234);
+
+	console.log(anthony.toString());
+	console.log(carlos.toString());
+
+	anthony.changeName('Yanyll');
+
+	console.log("Now anthony's name is:" + anthony.toString() + "\n and Carlos' name is: "+ carlos.toString());
+
+	console.log(Object.getPrototypeOf(anthony)==User.prototype);
+
+	// Note: The property lookups start by first searching the object's own-properties (User.name, User.password). If not properties are found the next step is searching in the object prototype (User.toString, User.changeName).
+
+	</script>
+
+</body>
+</html>
